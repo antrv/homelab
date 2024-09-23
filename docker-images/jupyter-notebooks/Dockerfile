@@ -3,27 +3,26 @@ FROM quay.io/jupyter/minimal-notebook AS base
 USER root
 
 ENV \
-    # Enable detection of running in a container
     DOTNET_RUNNING_IN_CONTAINER=true \
-    # Enable correct mode for dotnet watch (only mode supported in a container)
     DOTNET_USE_POLLING_FILE_WATCHER=true \
-    # Skip extraction of XML docs - generally not useful within an image/container - helps performance
     NUGET_XMLDOC_MODE=skip \
-    # Opt out of telemetry until after we install jupyter when building the image, this prevents caching of machine id
-    DOTNET_TRY_CLI_TELEMETRY_OPTOUT=true
+    DOTNET_TRY_CLI_TELEMETRY_OPTOUT=true \
+    DEBIAN_FRONTEND=noninteractive \
+    USER=jovyan \
+    HOME=/home/jovyan
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get -y upgrade \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y curl dotnet-sdk-8.0
+RUN apt-get update \
+    && apt-get -y upgrade \
+    && apt-get install -y curl dotnet-sdk-8.0
 
-USER jovyan
+USER ${USER}
 
 RUN pip install nteract_on_jupyter \
     && dotnet tool install -g Microsoft.dotnet-interactive
 
-ENV PATH="${PATH}:/home/jovyan/.dotnet/tools"
+ENV PATH="${PATH}:${HOME}/.dotnet/tools"
 
 # Install kernel specs
 RUN dotnet interactive jupyter install
 
-WORKDIR /home/jovyan/Notebooks/
+WORKDIR ${HOME}/Notebooks/
