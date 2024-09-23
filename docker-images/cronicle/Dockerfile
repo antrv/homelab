@@ -1,5 +1,5 @@
 FROM node:18-bullseye AS Builder
-ENV CRONICLE_VERSION=0.9.39
+ENV CRONICLE_VERSION=0.9.59
 WORKDIR /opt/cronicle
 ADD https://github.com/jhuckaby/Cronicle/archive/refs/tags/v${CRONICLE_VERSION}.tar.gz /tmp/Cronicle-${CRONICLE_VERSION}.tar.gz
 RUN tar zxvf /tmp/Cronicle-${CRONICLE_VERSION}.tar.gz -C /tmp/ && \
