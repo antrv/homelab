@@ -1,3 +1,30 @@
+# If powershell session initiated by running a script with output redirection
+If ([System.Console]::IsOutputRedirected)
+{
+    Exit
+}
+
+Function IsVirtualTerminalProcessingEnabled
+{
+    $MethodDefinitions = @'
+[DllImport("kernel32.dll", SetLastError = true)]
+public static extern IntPtr GetStdHandle(int nStdHandle);
+[DllImport("kernel32.dll", SetLastError = true)]
+public static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint lpMode);
+'@
+    $Kernel32 = Add-Type -MemberDefinition $MethodDefinitions -Name 'Kernel32' -Namespace 'Win32' -PassThru
+    $hConsoleHandle = $Kernel32::GetStdHandle(-11) # STD_OUTPUT_HANDLE
+    $mode = 0
+    $Kernel32::GetConsoleMode($hConsoleHandle, [ref]$mode) >$null
+    If ($mode -Band 0x0004)
+    { 
+        # 0x0004 ENABLE_VIRTUAL_TERMINAL_PROCESSING
+        Return $true
+    }
+ 
+    Return $false
+}
+
 # Oh-My-Posh
 oh-my-posh init pwsh --config "$PSScriptRoot/mytheme.omp.json" | Invoke-Expression
 Import-Module posh-git
@@ -7,8 +34,12 @@ Import-Module PSReadLine
 Set-PSReadLineOption -BellStyle None
 Set-PSReadLineOption -EditMode Windows
 Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
-Set-PSReadLineOption -PredictionSource History
-Set-PSReadLineOption -PredictionViewStyle ListView
+
+If (IsVirtualTerminalProcessingEnabled)
+{
+    Set-PSReadLineOption -PredictionSource History
+    Set-PSReadLineOption -PredictionViewStyle ListView
+}
 
 # Fzf
 Import-Module PSFzf
