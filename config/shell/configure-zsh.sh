@@ -98,6 +98,34 @@ EOF
         fi
     fi
 
+    # Download .zshrc
+    if [ ! -f "$HOME/.zshrc" ]; then
+        echo "Downloading .zshrc..."
+        if ! curl -fsSL "https://raw.githubusercontent.com/antrv/homelab/main/config/shell/.zshrc" -o "$HOME/.zshrc"; then
+            echo "Failed to download .zshrc, aborting."
+            exit 1
+        fi
+    fi
+
+    # Download starship config
+    if [ ! -f "$HOME/.config/starship.toml" ]; then
+        echo "Downloading starship.toml..."
+        mkdir -p "$HOME/.config"
+        if ! curl -fsSL "https://raw.githubusercontent.com/antrv/homelab/main/config/shell/.config/starship.toml" -o "$HOME/.config/starship.toml"; then
+            echo "Failed to download starship.toml, aborting."
+            exit 1
+        fi
+    fi
+
+    # Download tmux config
+    if [ ! -f "$HOME/.tmux.conf" ]; then
+        echo "Downloading .tmux.conf..."
+        if ! curl -fsSL "https://raw.githubusercontent.com/antrv/homelab/main/config/shell/.tmux.conf" -o "$HOME/.tmux.conf"; then
+            echo "Failed to download .tmux.conf, aborting."
+            exit 1
+        fi
+    fi
+
     # Create a marker file to indicate zsh has been configured
     touch "$HOME/.config/zsh-configured"
     echo "Zsh configuration completed."
