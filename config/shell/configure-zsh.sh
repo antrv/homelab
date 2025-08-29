@@ -25,7 +25,7 @@ if [ ! -f "$HOME/.config/zsh-configured" ]; then
     # Check distribution and install packages
     if command -v zypper >/dev/null 2>&1; then
         echo "This is openSUSE."
-        if ! $SUDO sh -c "zypper refresh && zypper install -y starship $pkgs"; then
+        if ! $SUDO sh -c "zypper --non-interactive refresh && zypper --non-interactive install -y starship $pkgs"; then
             echo "Package installation failed on openSUSE, aborting."
             exit 1
         fi
@@ -34,6 +34,7 @@ if [ ! -f "$HOME/.config/zsh-configured" ]; then
 
         if ! $SUDO sh <<'EOF'
 set -e
+DEBIAN_FRONTEND=noninteractive
 apt update
 if apt-cache show starship >/dev/null 2>&1; then
     echo "Starship package found in APT repos."
