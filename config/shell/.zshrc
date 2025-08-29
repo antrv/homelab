@@ -10,8 +10,12 @@ eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 
 # FZF
-# Ubuntu/Debian/openSUSE
-if [[ -f "/usr/share/fzf/shell/key-bindings.zsh" ]]; then
+# Ubuntu/Debian
+if fzf --zsh >/dev/null 2>&1; then
+    # fzf --zsh succeeded, run eval
+    eval "$(fzf --zsh)"
+# openSUSE
+elif [[ -f "/usr/share/fzf/shell/key-bindings.zsh" ]]; then
     source /usr/share/fzf/shell/key-bindings.zsh
     source /usr/share/fzf/shell/completion.zsh
 # Alpine Linux
