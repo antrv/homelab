@@ -1,0 +1,60 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = '$directory$git_branch$git_commit$git_state$git_status '
+#right_format = '$character $cmd_duration'
+add_newline = false
+command_timeout = 2000
+
+[character]
+success_symbol = '[❯](bold green)'
+error_symbol = '[✗](bold red)'
+
+[cmd_duration]
+min_time = 500
+format = '[$duration](bold yellow)'
+
+[directory]
+# bg:#4B4BFF fg:#151547
+format = '[](fg:#40189C)[ $path ]($style)[](fg:#40189C)'
+style = 'fg:#E0E0E0 bg:#40189C'
+truncation_length = 3
+truncation_symbol = "…/"
+truncate_to_repo = false
+
+#[directory.substitutions]
+#"Z:/Workspace" = "[Workspace]"
+
+[git_branch]
+format = '[](fg:black bg:#01579B)[ $symbol$branch(:$remote_branch) ]($style)'
+style = 'fg:#E0E0E0 bg:#01579B'
+truncation_length = 48
+only_attached = true
+
+[git_commit]
+format = '[](fg:black bg:#01579B)[ ( $hash)(  $tag) ]($style)'
+style = 'fg:#E0E0E0 bg:#01579B'
+tag_disabled = false
+tag_symbol = ''
+commit_hash_length = 9
+
+[git_state]
+format = '[$state($progress_current/$progress_total)]($style)'
+style = 'fg:#E0E0E0 bg:#01579B'
+
+[git_status]
+format = '([$all_status$ahead_behind ]($style))[](fg:#01579B bg:black)'
+style = 'fg:#E0E0E0 bg:#01579B'
+stashed = ' \$$count'
+untracked = '[ ?$count](bold fg:#E0E000 bg:#01579B)'
+staged = '[ +$count](bold fg:green bg:#01579B)'
+deleted = '[ -$count](bold fg:red bg:#01579B)'
+up_to_date = ''
+ahead = ' ⇡$count' # F17C37
+behind = ' ⇣$count'
+diverged = ' ⇡$ahead_count⇣$behind_count'
+renamed = ' »$count'
+conflicted = ' =$count'
+
+[package]
+disabled = true
