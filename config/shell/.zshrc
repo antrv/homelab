@@ -21,6 +21,10 @@ elif [[ -f "/usr/share/fzf/shell/key-bindings.zsh" ]]; then
 # Alpine Linux
 elif [[ -f "/usr/share/zsh/plugins/fzf/fzf.plugin.zsh" ]]; then
     source /usr/share/zsh/plugins/fzf/fzf.plugin.zsh
+# local
+elif [[ -f "$HOME/.apps/zsh/fzf/key-bindings.zsh" ]]; then
+    source ~/.apps/zsh/fzf/key-bindings.zsh
+    source ~/.apps/zsh/fzf/completion.zsh
 else
     echo "FZF not configured!"
 fi

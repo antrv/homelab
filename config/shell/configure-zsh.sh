@@ -90,6 +90,11 @@ EOF
         fi
     done
     
+    # fzf configuration
+    mkdir -p "$HOME/.apps/zsh/fzf"
+    wget https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -O "$HOME/.apps/zsh/fzf/key-bindings.zsh" -q || true
+    wget https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh -O "$HOME/.apps/zsh/fzf/completion.zsh" -q || true
+
     # Set zsh as default shell if not already
     if [ "$SHELL" != "$(command -v zsh)" ]; then
         if command -v chsh >/dev/null 2>&1; then
