@@ -14,6 +14,10 @@ eval "$(zoxide init zsh)"
 if fzf --zsh >/dev/null 2>&1; then
     # fzf --zsh succeeded, run eval
     eval "$(fzf --zsh)"
+# Old Ubuntu
+elif [[ -f "/usr/share/doc/fzf/examples/key-bindings.zsh" ]]; then
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+    source /usr/share/doc/fzf/examples/completion.zsh
 # openSUSE
 elif [[ -f "/usr/share/fzf/shell/key-bindings.zsh" ]]; then
     source /usr/share/fzf/shell/key-bindings.zsh

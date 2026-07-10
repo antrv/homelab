@@ -1,7 +1,7 @@
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
-format = '$directory$git_branch$git_commit$git_state$git_status '
+format = '$hostname$directory$git_branch$git_commit$git_state$git_status$status '
 #right_format = '$character $cmd_duration'
 add_newline = false
 command_timeout = 2000
@@ -14,9 +14,17 @@ error_symbol = '[✗](bold red)'
 min_time = 500
 format = '[$duration](bold yellow)'
 
+[hostname]
+ssh_only = false
+ssh_symbol = '🔐'
+format = '[](fg:#9C1840)[$ssh_symbol $hostname ]($style)[](fg:#9C1840 bg:#40189C)'
+style = 'fg:#E0E0E0 bg:#9C1840'
+trim_at = ''
+disabled = false
+
 [directory]
 # bg:#4B4BFF fg:#151547
-format = '[](fg:#40189C)[ $path ]($style)[](fg:#40189C)'
+format = '[ $path ]($style)[](fg:#40189C)'
 style = 'fg:#E0E0E0 bg:#40189C'
 truncation_length = 3
 truncation_symbol = "…/"
@@ -55,6 +63,14 @@ behind = ' ⇣$count'
 diverged = ' ⇡$ahead_count⇣$behind_count'
 renamed = ' »$count'
 conflicted = ' =$count'
+
+[status]
+style = 'bg:red'
+symbol = '!'
+success_symbol = ''
+format = '[](fg:black bg:red)[ $symbol$common_meaning$signal_name$maybe_int ]($style)[](fg:red bg:black)'
+map_symbol = true
+disabled = false
 
 [package]
 disabled = true
